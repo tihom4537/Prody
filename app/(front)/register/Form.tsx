@@ -114,7 +114,7 @@ const Form = () => {
             )}
           </div>
 
-          <div className="my-2">
+          {/* <div className="my-2">
             <label className="label" htmlFor="name">
               Type [Buyer/Seller]
             </label>
@@ -129,7 +129,7 @@ const Form = () => {
             {errors.name?.message && (
               <div className="text-error">{errors.name.message}</div>
             )}
-          </div>
+          </div> */}
 
           <div className="my-2">
             <label className="label" htmlFor="password">
