@@ -1,24 +1,25 @@
-'use client'
-import { useSession } from 'next-auth/react'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
+"use client";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type Inputs = {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+  name: string;
+  email: string;
+  type: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const Form = () => {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
-  const params = useSearchParams()
-  const router = useRouter()
-  let callbackUrl = params.get('callbackUrl') || '/'
+  const params = useSearchParams();
+  const router = useRouter();
+  let callbackUrl = params.get("callbackUrl") || "/";
   const {
     register,
     handleSubmit,
@@ -26,49 +27,51 @@ const Form = () => {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      name: "",
+      email: "",
+      type: "",
+      password: "",
+      confirmPassword: "",
     },
-  })
+  });
   useEffect(() => {
     if (session && session.user) {
-      router.push(callbackUrl)
+      router.push(callbackUrl);
     }
-  }, [callbackUrl, params, router, session])
+  }, [callbackUrl, params, router, session]);
 
   const formSubmit: SubmitHandler<Inputs> = async (form) => {
-    const { name, email, password } = form
+    const { name, email, type, password } = form;
 
     try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name,
           email,
+          type,
           password,
         }),
-      })
+      });
       if (res.ok) {
         return router.push(
           `/signin?callbackUrl=${callbackUrl}&success=Account has been created`
-        )
+        );
       } else {
-        const data = await res.json()
-        throw new Error(data.message)
+        const data = await res.json();
+        throw new Error(data.message);
       }
     } catch (err: any) {
       const error =
-        err.message && err.message.indexOf('E11000') === 0
-          ? 'Email is duplicate'
-          : err.message
-      toast.error(error || 'error')
+        err.message && err.message.indexOf("E11000") === 0
+          ? "Email is duplicate"
+          : err.message;
+      toast.error(error || "error");
     }
-  }
+  };
   return (
     <div className="max-w-sm  mx-auto card bg-base-300 my-4">
       <div className="card-body">
@@ -81,8 +84,8 @@ const Form = () => {
             <input
               type="text"
               id="name"
-              {...register('name', {
-                required: 'Name is required',
+              {...register("name", {
+                required: "Name is required",
               })}
               className="input input-bordered w-full max-w-sm"
             />
@@ -97,11 +100,11 @@ const Form = () => {
             <input
               type="text"
               id="email"
-              {...register('email', {
-                required: 'Email is required',
+              {...register("email", {
+                required: "Email is required",
                 pattern: {
                   value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                  message: 'Email is invalid',
+                  message: "Email is invalid",
                 },
               })}
               className="input input-bordered w-full max-w-sm"
@@ -110,6 +113,24 @@ const Form = () => {
               <div className="text-error"> {errors.email.message}</div>
             )}
           </div>
+
+          <div className="my-2">
+            <label className="label" htmlFor="name">
+              Type [Buyer/Seller]
+            </label>
+            <input
+              type="text"
+              id="type"
+              {...register("type", {
+                required: "Type is required",
+              })}
+              className="input input-bordered w-full max-w-sm"
+            />
+            {errors.name?.message && (
+              <div className="text-error">{errors.name.message}</div>
+            )}
+          </div>
+
           <div className="my-2">
             <label className="label" htmlFor="password">
               Password
@@ -117,8 +138,8 @@ const Form = () => {
             <input
               type="password"
               id="password"
-              {...register('password', {
-                required: 'Password is required',
+              {...register("password", {
+                required: "Password is required",
               })}
               className="input input-bordered w-full max-w-sm"
             />
@@ -133,11 +154,11 @@ const Form = () => {
             <input
               type="password"
               id="confirmPassword"
-              {...register('confirmPassword', {
-                required: 'Confirm Password is required',
+              {...register("confirmPassword", {
+                required: "Confirm Password is required",
                 validate: (value) => {
-                  const { password } = getValues()
-                  return password === value || 'Passwords should match!'
+                  const { password } = getValues();
+                  return password === value || "Passwords should match!";
                 },
               })}
               className="input input-bordered w-full max-w-sm"
@@ -162,14 +183,14 @@ const Form = () => {
 
         <div className="divider"> </div>
         <div>
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link className="link" href={`/signin?callbackUrl=${callbackUrl}`}>
             Login
           </Link>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;

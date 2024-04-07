@@ -3,23 +3,9 @@ import { Rating } from '@/components/products/Rating'
 import productServices from '@/lib/services/productService'
 import Link from 'next/link'
 
-const sortOrders = ['newest', 'lowest', 'highest', 'rating']
-const prices = [
-  {
-    name: '$1 to $50',
-    value: '1-50',
-  },
-  {
-    name: '$51 to $200',
-    value: '51-200',
-  },
-  {
-    name: '$201 to $1000',
-    value: '201-1000',
-  },
-]
+const sortOrders = ['newest', 'lowest', 'highest']
 
-const ratings = [5, 4, 3, 2, 1]
+
 
 export async function generateMetadata({
   searchParams: { q = 'all', category = 'all', price = 'all', rating = 'all' },
@@ -103,7 +89,7 @@ export default async function SearchPage({
   })
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
-      <div>
+      {/* <div>
         <div className="text-xl pt-3">Department</div>
         <div>
           <ul>
@@ -158,34 +144,8 @@ export default async function SearchPage({
             ))}
           </ul>
         </div>
-        <div>
-          <div className="text-xl pt-3">Customer Review</div>
-          <ul>
-            <li>
-              <Link
-                href={getFilterUrl({ r: 'all' })}
-                className={`link link-hover ${
-                  'all' === rating && 'link-primary'
-                }`}
-              >
-                Any
-              </Link>
-            </li>
-            {ratings.map((r) => (
-              <li key={r}>
-                <Link
-                  href={getFilterUrl({ r: `${r}` })}
-                  className={`link link-hover ${
-                    `${r}` === rating && 'link-primary'
-                  }`}
-                >
-                  <Rating caption={' & up'} value={r}></Rating>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+        
+      </div> */}
       <div className="md:col-span-4">
         <div className="flex items-center justify-between  py-4">
           <div className="flex items-center">

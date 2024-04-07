@@ -1,33 +1,33 @@
-import AddToCart from '@/components/products/AddToCart'
-import { convertDocToObj } from '@/lib/utils'
-import productService from '@/lib/services/productService'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Rating } from '@/components/products/Rating'
+import AddToCart from "@/components/products/AddToCart";
+import { convertDocToObj } from "@/lib/utils";
+import productService from "@/lib/services/productService";
+import Image from "next/image";
+import Link from "next/link";
+import { Rating } from "@/components/products/Rating";
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }) {
-  const product = await productService.getBySlug(params.slug)
+  const product = await productService.getBySlug(params.slug);
   if (!product) {
-    return { title: 'Product not found' }
+    return { title: "Product not found" };
   }
   return {
     title: product.name,
     description: product.description,
-  }
+  };
 }
 
 export default async function ProductDetails({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }) {
-  const product = await productService.getBySlug(params.slug)
+  const product = await productService.getBySlug(params.slug);
   if (!product) {
-    return <div>Product not found</div>
+    return <div>Product not found</div>;
   }
   return (
     <>
@@ -43,8 +43,8 @@ export default async function ProductDetails({
             height={640}
             sizes="100vw"
             style={{
-              width: '100%',
-              height: 'auto',
+              width: "100%",
+              height: "auto",
             }}
           ></Image>
         </div>
@@ -54,10 +54,7 @@ export default async function ProductDetails({
               <h1 className="text-xl">{product.name}</h1>
             </li>
             <li>
-              <Rating
-                value={product.rating}
-                caption={`${product.numReviews} ratings`}
-              />
+              <Rating caption={`${product.numReviews} ratings`} />
             </li>
             <li> {product.brand}</li>
             <li>
@@ -78,7 +75,7 @@ export default async function ProductDetails({
               <div className="mb-2 flex justify-between">
                 <div>Status</div>
                 <div>
-                  {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
+                  {product.countInStock > 0 ? "In stock" : "Unavailable"}
                 </div>
               </div>
               {product.countInStock !== 0 && (
@@ -87,8 +84,8 @@ export default async function ProductDetails({
                     item={{
                       ...convertDocToObj(product),
                       qty: 0,
-                      color: '',
-                      size: '',
+                      color: "",
+                      size: "",
                     }}
                   />
                 </div>
@@ -98,5 +95,5 @@ export default async function ProductDetails({
         </div>
       </div>
     </>
-  )
+  );
 }
