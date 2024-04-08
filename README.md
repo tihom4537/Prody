@@ -20,13 +20,13 @@ npm run dev
     or
 yarn dev 
 
-Open [https://github.com/abhishekrj02/Prody] (https://github.com/abhishekrj02/Prody) with your browser to see the result
+Open https://github.com/tihom4537/Prody with your browser to see the result
 
 You can use the frontend on the screen with name {VisionariesMedico}.
 
 You can see change in the clientside(demand.tsx,population.tsx,rate limit.tsx) .The page auto-update as you edit the frontend side.
 
-[API routes] (https://github.com/abhishekrj02/Prody)  connection of frontend to backend with paticular rules set in  backend and store the information in database.
+[API routes] (https://github.com/tihom4537/Prody)  connection of frontend to backend with paticular rules set in  backend and store the information in database.
 
 More product can be added in the site by clicking the button on the website.
 You can control the product sell and  price, which is set by the government site.
